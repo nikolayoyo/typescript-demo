@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\service",
+    "\\src\\stores",
+    "\\src\\styles"
+  ],
+  "SelectedNode": "\\src\\stores\\ToDo.tsx",
+  "PreviewInSolutionExplorer": false
+}
