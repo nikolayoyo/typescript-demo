@@ -1,25 +1,26 @@
 import { computed, observable } from "mobx"
-import Todo from './Todo'
+import {Todo} from './Todo'
 import { ApiCalls, Method } from '../service/ApiCalls'
+import TodoList from "./ToDoList";
 
 export class TodoStore {
-  @observable todos: any = []
-  @observable filter = ""
+  @observable todos: any = [];
+  @observable filter : string= ""
   @computed get filteredTodos() {
     var matchesFilter = new RegExp(this.filter, "i")
-    return this.todos.filter((todo: any) => !this.filter || matchesFilter.test(todo.value))
+    return this.todos.filter((todo: Todo) => !this.filter || matchesFilter.test(todo.value))
   }
 
-  getAllToDosFromServer(){
+  getAllToDosFromServer() : void{
     ApiCalls.call(Method.GET,
                   this.getAllToDosSuccessCall.bind(this));
   }
 
-  getAllToDosSuccessCall(response: any) {
+  getAllToDosSuccessCall(response: any) : void{
     this.todos = response.data.map((element: any) => new Todo(element.id, element.content)); 
   }
   
-  createTodo(content: any) {
+  createTodo(content: any) : void{
     const note = { content }
     ApiCalls.call(Method.POST,
                   this.createToDoSuccessCall.bind(this), 
@@ -27,12 +28,12 @@ export class TodoStore {
                   note);
   }
 
-  createToDoSuccessCall(response: any){
-    const todo = new Todo(response.data.id, response.data.content);
+  createToDoSuccessCall(response: any) : void{
+    const todo : Todo = new Todo(response.data.id, response.data.content);
     this.todos.push(todo);
   }
    
-  editToDo(id: any, value: any){
+  editToDo(id: number, value: string) : void{
     const content = {    
       id: id,
       content: value     
@@ -44,21 +45,21 @@ export class TodoStore {
                   content);
   }
 
-  editToDoSuccessCall(response: any){
+  editToDoSuccessCall(response: any) : void{
     const toDoToEdit = this.todos.find((x: any) => x.id == response.data.id) as any
     console.log(response.data)
     toDoToEdit.value = response.data.content  
     toDoToEdit.editable = "hidden"
   }
 
-  deleteToDo(todo: any) {
+  deleteToDo(todo: Todo)  : void{
     ApiCalls.call(Method.DELETE,
                  this.deleteToDoSuccessCall.bind(this), 
                  todo.id);
-    this.todos.remove(todo)
+    this.todos.delete(todo)
   }
 
-  deleteToDoSuccessCall(response: any){
+  deleteToDoSuccessCall(response: any) : void{
     console.log(response)
   }
   
@@ -72,7 +73,7 @@ export class TodoStore {
                   data);    
   }
   
-  clearCompleteSuccesssCall(){
+  clearCompleteSuccesssCall() : void{
     let incompleteTodos = this.todos.filter((todo: any) => !todo.complete)
     this.todos.replace(incompleteTodos)
   }

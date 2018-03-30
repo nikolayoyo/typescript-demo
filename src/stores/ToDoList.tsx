@@ -1,5 +1,7 @@
 import * as React from "react"
 import { observer } from "mobx-react"
+import { Todo } from "./Todo"
+
 
 @observer
 export default class TodoList extends React.Component<any, any> {
@@ -7,19 +9,19 @@ export default class TodoList extends React.Component<any, any> {
     this.props.store.getAllToDosFromServer()
   }
 
-  createNew(e: any) {
+  createNew(e: any) : void {
     if (e.which === 13) {
       this.props.store.createTodo(e.target.value)
       e.target.value = ""
     }
   }
 
-  delete(todo: any){
+  delete(todo: Todo) : void{
     todo.complete = true
     this.props.store.deleteToDo(todo)
   }
 
-  handleEdit(todo: any){
+  handleEdit(todo: Todo) : void{
     if(todo.editable === "hidden"){
       todo.editable = "text"
     }
@@ -28,17 +30,17 @@ export default class TodoList extends React.Component<any, any> {
     }
   }
 
-  edit(e: any){  
+  edit(e: any) : void{  
     if(e.key === 'Enter'){
       this.props.store.editToDo(e.target.id, e.target.value)
     }
   }
   
-  filter(e: any) {
+  filter(e: any) : void{
     this.props.store.filter = e.target.value
   }
 
-  toggleComplete(todo: any) {
+  toggleComplete(todo: Todo) : void {
     todo.complete = !todo.complete
   }
   

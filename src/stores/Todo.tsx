@@ -1,13 +1,13 @@
 import { observable } from "mobx"
 
-export default class Todo {
-    @observable value: number
+export class Todo {
+    @observable value: string
     @observable id: number;
     @observable complete: boolean;
     @observable toBeDeleted: boolean = false;
-    @observable editable: "hidden" | "visible";
+    @observable editable: "hidden" | "text";
   
-    constructor(id: number, value: number) {
+    constructor(id: number, value: string) {
       this.value = value;
       this.id = id;
       this.complete = false;
