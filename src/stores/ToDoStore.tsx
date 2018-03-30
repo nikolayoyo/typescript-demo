@@ -1,10 +1,9 @@
 import { computed, observable } from "mobx"
 import {Todo} from './Todo'
 import { ApiCalls, Method } from '../service/ApiCalls'
-import TodoList from "./ToDoList";
 
 export class TodoStore {
-  @observable todos: any = [];
+  todos: any = [];
   @observable filter : string= ""
   @computed get filteredTodos() {
     var matchesFilter = new RegExp(this.filter, "i")

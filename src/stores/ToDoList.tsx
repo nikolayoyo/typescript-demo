@@ -10,7 +10,7 @@ export default class TodoList extends React.Component<any, any> {
   }
 
   createNew(e: any) : void {
-    if (e.which === 13) {
+    if (e.key === 'Enter') {
       this.props.store.createTodo(e.target.value)
       e.target.value = ""
     }
