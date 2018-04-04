@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import TodoList from './stores/ToDoList';
+import TodoList from './components/ToDoList';
 import ToDoStore from './stores/ToDoStore';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
