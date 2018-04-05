@@ -1,6 +1,7 @@
 import { computed, observable } from "mobx"
 import {Todo} from './Todo'
 import { ApiCalls, Method } from '../service/ApiCalls'
+import { Response } from "./Interfaces/response";
 
 export class TodoStore {
   todos: any = [];
@@ -15,8 +16,8 @@ export class TodoStore {
                   this.getAllToDosSuccessCall.bind(this));
   }
 
-  getAllToDosSuccessCall(response: any) : void{
-    this.todos = response.data.map((element: any) => new Todo(element.id, element.content)); 
+  getAllToDosSuccessCall(response: Response) : void{
+    this.todos = response.data.map((element : any) => new Todo(element.id, element.content)); 
   }
   
   createTodo(content: any) : void{
@@ -27,7 +28,7 @@ export class TodoStore {
                   note);
   }
 
-  createToDoSuccessCall(response: any) : void{
+  createToDoSuccessCall(response: Response) : void{
     const todo : Todo = new Todo(response.data.id, response.data.content);
     this.todos.push(todo);
   }
@@ -44,7 +45,7 @@ export class TodoStore {
                   content);
   }
 
-  editToDoSuccessCall(response: any) : void{
+  editToDoSuccessCall(response: Response) : void{
     const toDoToEdit = this.todos.find((x: any) => x.id == response.data.id) as any
     console.log(response.data)
     toDoToEdit.value = response.data.content  
@@ -58,12 +59,12 @@ export class TodoStore {
     this.todos.delete(todo)
   }
 
-  deleteToDoSuccessCall(response: any) : void{
+  deleteToDoSuccessCall(response: Response) : void{
     console.log(response)
   }
   
   clearComplete = () => {
-    const listToRemove = this.todos.filter((todo: any) => todo.complete).map((x: any) => x.id)
+    const listToRemove = this.todos.filter((todo: Todo) => todo.complete).map((x: any) => x.id)
     const data = { Ids : listToRemove} 
     
     ApiCalls.call(Method.DELETE,
@@ -73,7 +74,7 @@ export class TodoStore {
   }
   
   clearCompleteSuccesssCall() : void{
-    let incompleteTodos = this.todos.filter((todo: any) => !todo.complete)
+    let incompleteTodos = this.todos.filter((todo: Todo) => !todo.complete)
     this.todos.replace(incompleteTodos)
   }
 }
